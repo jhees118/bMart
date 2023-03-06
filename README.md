@@ -22,8 +22,11 @@
 3.2 상품별 할인율 적용하기위해 따로 할인외래키를만든다.(X)추후예정<br>
 3.3 상품 등록은 관리자 에디터를 만들어 관리자가 쉽게 상품등록할수있도록한다.(X)추후예정<br>
 ## 기능 이미지
-
-
+![getProducts](https://user-images.githubusercontent.com/112354634/223041065-f9175012-187e-4f18-a0cf-287b37846a10.PNG)
+![getUser](https://user-images.githubusercontent.com/112354634/223041069-5e51422d-d2e3-496f-a835-1f00329567bd.PNG)
+![postProducts](https://user-images.githubusercontent.com/112354634/223041074-84a1c79c-0042-40f7-a2ae-029cce26cc03.PNG)
+![signUp](https://user-images.githubusercontent.com/112354634/223041076-b396fbe6-53ef-41b0-a732-3fac8b3eb359.PNG)
+![getIdProducts](https://user-images.githubusercontent.com/112354634/223041078-b1f8b528-b37a-4ca8-8ed8-89c613510a00.PNG)
 
 ## 보완할점 마침말 
 1.bMart를 참고하여 하나씩 기능을 상세히 알아보며 더좋은 방법의 개발을 찾아봐야겠다.<br>
