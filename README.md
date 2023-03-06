@@ -28,6 +28,6 @@
 ![signUp](https://user-images.githubusercontent.com/112354634/223041076-b396fbe6-53ef-41b0-a732-3fac8b3eb359.PNG)
 ![getIdProducts](https://user-images.githubusercontent.com/112354634/223041078-b1f8b528-b37a-4ca8-8ed8-89c613510a00.PNG)
 
-## 보완할점 마침말 
-1.bMart를 참고하여 하나씩 기능을 상세히 알아보며 더좋은 방법의 개발을 찾아봐야겠다.<br>
+## 보완할점 마침말
+하나하나 기능을 더 추가하며 완성도를 높이도록 노력하자
 
