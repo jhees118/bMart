@@ -17,7 +17,6 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String image;
     private String title;
 
     @JsonIgnore
@@ -26,8 +25,8 @@ public class Category {
 
 
     @Builder
-    public Category(String title,  String image){
+    public Category(String title){
         this.title = title;
-        this.image = image;
+
     }
 }

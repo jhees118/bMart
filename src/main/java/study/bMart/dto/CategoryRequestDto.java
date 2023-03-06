@@ -10,23 +10,23 @@ import study.bMart.entity.Category;
 @Getter
 public class CategoryRequestDto {
 
-    private String image;
+
 
     private String title;
 
 
 
     @Builder
-    public CategoryRequestDto(String title, String image){
+    public CategoryRequestDto(String title){
         this.title = title;
 
-        this.image = image;
+
 
 
     }
 
     public Category toEntity(){
 
-        return  Category.builder().image(image).title(title).build();
+        return  Category.builder().title(title).build();
     }
 }
