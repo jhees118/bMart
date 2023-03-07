@@ -20,16 +20,20 @@ public class Products {
     private String thumbnail;
     private String title;
     private String content;
-    @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "categoryId")
-    private Category categoryId;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name ="products_category",
+            joinColumns = @JoinColumn(name ="products_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 
     @Builder
-    public Products(String title, Integer price, String content , String thumbnail,Category categoryId){
+    public Products(String title, Integer price, String content , String thumbnail,List<Category> categories){
         this.title = title;
         this.price = price;
         this.content = content;
         this.thumbnail = thumbnail;
-        this.categoryId = categoryId;
+        this.categories = categories;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
+import study.bMart.entity.Category;
 import study.bMart.entity.Products;
 import study.bMart.repository.ProductsRepository;
 
@@ -40,6 +41,7 @@ public class ProductsService {
 
     @Transactional
     public Products productsRegistration(ProductsRequestDto productsRequestDto){
+
 
         return productsRepository.save(productsRequestDto.toEntity());
     }

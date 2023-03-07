@@ -20,8 +20,8 @@ public class Category {
     private String title;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoryId",cascade = CascadeType.REMOVE)
-    private List<Products> productsList = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories")
+    private List<Products> productsList;
 
 
     @Builder

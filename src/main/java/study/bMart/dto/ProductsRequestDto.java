@@ -1,7 +1,9 @@
 package study.bMart.dto;
 
 import lombok.*;
+import study.bMart.entity.Category;
 import study.bMart.entity.Products;
+import study.bMart.entity.Role;
 
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ public class ProductsRequestDto {
     private String title;
     private String content;
 
+    private List<Category> categories = new ArrayList<>();
 
 
     @Builder
@@ -36,7 +39,7 @@ public class ProductsRequestDto {
 
     public Products toEntity(){
 
-        return  Products.builder().content(content).price(price).title(title).thumbnail(thumbnail).build();
+        return  Products.builder().content(content).price(price).title(title).thumbnail(thumbnail).categories(categories).build();
     }
 
 }
