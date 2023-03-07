@@ -27,13 +27,13 @@ public class ProductsService {
                 .collect(Collectors.toList());
     }
     //카테고리별 상품 조회
-    /*
-    public List<ProductsResponseDto> getCategoryProducts(String Category){
-        return productsRepository.findByCategory(Category).stream()
+
+    public List<ProductsResponseDto> getCategoryProducts(String category){
+        return productsRepository.findByCategory_Title(category).stream()
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
     }
-    */
+
 
     public Optional<ProductsResponseDto> getProducts(Long id){
 

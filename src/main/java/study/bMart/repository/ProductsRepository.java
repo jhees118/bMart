@@ -6,5 +6,5 @@ import study.bMart.entity.Products;
 import java.util.List;
 
 public interface ProductsRepository extends JpaRepository<Products,Long> {
-    /* List<Products> findByCategory(String category);*/
+    List<Products> findByCategory_Title(String category);
 }

@@ -29,11 +29,11 @@ public class ProductsController {
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
         List<ProductsResponseDto> productsList = productsService.getAllProducts();
-        //  List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
+          List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
 
         BasicResponse basicResponse = new BasicResponse();
 
-       /* if(StringUtils.isEmpty(category)==false) {
+        if(StringUtils.isEmpty(category)==false) {
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
@@ -42,7 +42,7 @@ public class ProductsController {
                     .count(CategoryProductsList.size())
                     .build();
         }
-        else */{
+        else {
 
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.OK.value())
