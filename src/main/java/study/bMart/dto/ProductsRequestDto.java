@@ -24,16 +24,16 @@ public class ProductsRequestDto {
     private String title;
     private String content;
 
-    private List<Category> categories = new ArrayList<>();
+    private Category categories;
 
 
     @Builder
-    public ProductsRequestDto(String title, Integer price,  String content , String thumbnail){
+    public ProductsRequestDto(String title, Integer price,  String content , String thumbnail,Category category){
         this.title = title;
         this.price = price;
         this.content = content;
         this.thumbnail = thumbnail;
-
+        this.categories = category;
 
     }
 

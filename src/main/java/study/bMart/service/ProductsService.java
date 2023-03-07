@@ -6,6 +6,7 @@ import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
 import study.bMart.entity.Category;
 import study.bMart.entity.Products;
+import study.bMart.repository.CategoryRepository;
 import study.bMart.repository.ProductsRepository;
 
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class ProductsService {
     @Autowired
     private ProductsRepository productsRepository;
-
+    private CategoryRepository categoryRepository;
     //상품 전체 조회
     public List<ProductsResponseDto> getAllProducts(){
         return productsRepository.findAll().stream()
@@ -41,6 +42,7 @@ public class ProductsService {
 
     @Transactional
     public Products productsRegistration(ProductsRequestDto productsRequestDto){
+
 
 
         return productsRepository.save(productsRequestDto.toEntity());
