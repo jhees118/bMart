@@ -5,4 +5,5 @@ import study.bMart.entity.Category;
 
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
+
 }

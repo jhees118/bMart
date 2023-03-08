@@ -6,12 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
-import study.bMart.dto.CategoryRequestDto;
-import study.bMart.dto.CategoryResponseDto;
-import study.bMart.dto.ProductsResponseDto;
+import study.bMart.dto.CategoryDto;
 import study.bMart.service.CategoryService;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +21,8 @@ public class CategoryController {
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllCategory(@RequestParam(value = "category",required = false) String category) {
-        List<CategoryResponseDto> categoryList = categoryService.getAllCategory();
+        List<CategoryDto.Response> categoryList = categoryService.getAllCategory();
+
 
         BasicResponse basicResponse = new BasicResponse();
 
@@ -39,7 +37,7 @@ public class CategoryController {
         return new ResponseEntity<>(basicResponse, basicResponse.getHttpStatus());
     }
     @PostMapping("")
-    public ResponseEntity<AccountResponse> categoryRegistration(@RequestBody CategoryRequestDto categoryRequestDto) {
+    public ResponseEntity<AccountResponse> categoryRegistration(@RequestBody CategoryDto.Request request) {
 
         AccountResponse accountResponse = new AccountResponse();
 
@@ -48,9 +46,24 @@ public class CategoryController {
                 .httpStatus(HttpStatus.CREATED)
                 .message("카테고리 등록 완료.")
                 .build();
-        categoryService.categoryRegistration(categoryRequestDto);
+        categoryService.categoryRegistration(request);
 
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AccountResponse> categoryDelete(@PathVariable("id") Long id) {
+
+        AccountResponse accountResponse = new AccountResponse();
+
+        accountResponse = AccountResponse.builder()
+                .code(HttpStatus.CREATED.value())
+                .httpStatus(HttpStatus.CREATED)
+                .message("카테고리 삭제 완료.")
+                .build();
+        categoryService.categoryDelete(id);
+
+        return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
+    }
+
 
 }

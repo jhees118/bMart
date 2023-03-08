@@ -2,9 +2,7 @@ package study.bMart.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import study.bMart.dto.CategoryRequestDto;
-import study.bMart.dto.CategoryResponseDto;
-import study.bMart.dto.ProductsResponseDto;
+import study.bMart.dto.CategoryDto;
 import study.bMart.entity.Category;
 import study.bMart.repository.CategoryRepository;
 
@@ -17,16 +15,22 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<CategoryResponseDto> getAllCategory(){
-        return categoryRepository.findAll().stream()
-                .map(CategoryResponseDto::new)
+
+
+
+    public void categoryDelete(Long id){
+        categoryRepository.deleteById(id);
+    }
+
+
+    public List<CategoryDto.Response> getAllCategory(){
+        return  categoryRepository.findAll().stream()
+                .map(CategoryDto.Response::new)
                 .collect(Collectors.toList());
     }
 
-    //카테고리 등록
     @Transactional
-    public Category categoryRegistration(CategoryRequestDto categoryRequestDto){
-
-        return categoryRepository.save(categoryRequestDto.toEntity());
+    public Category categoryRegistration(CategoryDto.Request request){
+        return categoryRepository.save(request.toEntity());
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
-import study.bMart.dto.CategoryResponseDto;
+import study.bMart.dto.CategoryDto;
 import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
 import study.bMart.repository.ProductsRepository;
@@ -15,9 +15,7 @@ import study.bMart.service.CategoryService;
 import study.bMart.service.ProductsService;
 
 
-import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -35,7 +33,6 @@ public class ProductsController {
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
         List<ProductsResponseDto> productsList = productsService.getAllProducts();
         List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
-        List<CategoryResponseDto> categoryList = categoryService.getAllCategory();
 
         BasicResponse basicResponse = new BasicResponse();
 
@@ -100,7 +97,7 @@ public class ProductsController {
     public ResponseEntity<AccountResponse> productsRegistration(@RequestBody ProductsRequestDto productsRequestDto) {
 
         AccountResponse accountResponse = new AccountResponse();
-        List<CategoryResponseDto> categoryList = categoryService.getAllCategory();
+        List<CategoryDto.Response> categoryList = categoryService.getAllCategory();
 
         if(productsRequestDto.getCategory()==null){
             accountResponse = AccountResponse.builder()
