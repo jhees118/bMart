@@ -17,6 +17,7 @@ import study.bMart.service.ProductsService;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -33,16 +34,27 @@ public class ProductsController {
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
         List<ProductsResponseDto> productsList = productsService.getAllProducts();
-          List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
+        List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
+        List<CategoryResponseDto> categoryList = categoryService.getAllCategory();
 
         BasicResponse basicResponse = new BasicResponse();
 
-        if(StringUtils.isEmpty(category)==false) {
+        if(StringUtils.isEmpty(category)==false && !CategoryProductsList.isEmpty()){
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.OK.value())
                     .httpStatus(HttpStatus.OK)
                     .message("카테고리별 조회 성공")
                     .result(new ArrayList<>(CategoryProductsList))
+                    .count(CategoryProductsList.size())
+                    .build();
+        }
+
+        else if(StringUtils.isEmpty(category)==false){
+            basicResponse = BasicResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("해당 카테고리가 존재하지않습니다.")
+                    .result(Collections.emptyList())
                     .count(CategoryProductsList.size())
                     .build();
         }
