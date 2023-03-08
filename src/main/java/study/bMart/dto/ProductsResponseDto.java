@@ -15,14 +15,14 @@ public class ProductsResponseDto {
     private String thumbnail;
     private String title;
     private String content;
-    private String categories;
+    private String category;
     public ProductsResponseDto(Products products){
         this.id = products.getId();
         this.price = products.getPrice();
         this.thumbnail = products.getThumbnail();
         this.title = products.getTitle();
         this.content = products.getContent();
-        this.categories = products.getCategory().getTitle();
+        this.category = products.getCategory().getTitle();
 
     }
 }

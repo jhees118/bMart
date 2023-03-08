@@ -24,7 +24,7 @@ public class ProductsRequestDto {
     private String title;
     private String content;
 
-    private Category categories;
+    private Category category;
 
 
     @Builder
@@ -33,13 +33,13 @@ public class ProductsRequestDto {
         this.price = price;
         this.content = content;
         this.thumbnail = thumbnail;
-        this.categories = category;
+        this.category = category;
 
     }
 
     public Products toEntity(){
 
-        return  Products.builder().content(content).price(price).title(title).thumbnail(thumbnail).categories(categories).build();
+        return  Products.builder().content(content).price(price).title(title).thumbnail(thumbnail).category(category).build();
     }
 
 }

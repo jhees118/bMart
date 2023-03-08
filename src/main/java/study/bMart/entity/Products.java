@@ -26,11 +26,11 @@ public class Products {
     private Category category;
 
     @Builder
-    public Products(String title, Integer price, String content , String thumbnail,Category categories){
+    public Products(String title, Integer price, String content , String thumbnail,Category category){
         this.title = title;
         this.price = price;
         this.content = content;
         this.thumbnail = thumbnail;
-        this.category = categories;
+        this.category = category;
     }
 }

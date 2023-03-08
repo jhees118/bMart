@@ -7,9 +7,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
+import study.bMart.dto.CategoryResponseDto;
 import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
 import study.bMart.repository.ProductsRepository;
+import study.bMart.service.CategoryService;
 import study.bMart.service.ProductsService;
 
 
@@ -25,6 +27,8 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService;
 
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
@@ -84,14 +88,31 @@ public class ProductsController {
     public ResponseEntity<AccountResponse> productsRegistration(@RequestBody ProductsRequestDto productsRequestDto) {
 
         AccountResponse accountResponse = new AccountResponse();
+        List<CategoryResponseDto> categoryList = categoryService.getAllCategory();
 
-        accountResponse = AccountResponse.builder()
-                .code(HttpStatus.CREATED.value())
-                .httpStatus(HttpStatus.CREATED)
-                .message("상품 등록 성공.")
-                .build();
-        productsService.productsRegistration(productsRequestDto);
+        if(productsRequestDto.getCategory()==null){
+            accountResponse = AccountResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .httpStatus(HttpStatus.BAD_REQUEST)
+                    .message("카테고리를 입력하지 않았습니다.")
+                    .build();
+        }
+        else if(productsRequestDto.getCategory().getId()!=categoryList.stream().findAny().get().getId()){
+            accountResponse = AccountResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .httpStatus(HttpStatus.BAD_REQUEST)
+                    .message("올바른 카테고리를 입력해 주세요.")
+                    .build();
 
+        }
+        else {
+            accountResponse = AccountResponse.builder()
+                    .code(HttpStatus.CREATED.value())
+                    .httpStatus(HttpStatus.CREATED)
+                    .message("상품 등록 성공.")
+                    .build();
+            productsService.productsRegistration(productsRequestDto);
+        }
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }
 
