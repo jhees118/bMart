@@ -26,7 +26,6 @@ public class AccountController {
     @Autowired
     private AccountService userService;
 
-
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllUser() {
         List<UserResponseDto> userList = userService.getAllUser();

@@ -17,6 +17,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class UserRequestDto {
 
     @NotNull
@@ -43,6 +44,7 @@ public class UserRequestDto {
     }
 
     public User toEntity(){
+
 
         return  User.builder().username(username).enabled(true).password(password).phone(phone).role(roles).build();
     }

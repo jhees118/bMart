@@ -1,6 +1,7 @@
 package study.bMart.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import study.bMart.dto.UserRequestDto;
 import study.bMart.dto.UserResponseDto;
@@ -38,6 +39,10 @@ public class AccountService {
         Role role = new Role();
         role.setId(1l);
         userRequestDto.getRoles().add(role);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userRequestDto.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+
         return userRepository.save(userRequestDto.toEntity());
     }
     //아이디중복체크
