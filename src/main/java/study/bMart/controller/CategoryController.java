@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
 import study.bMart.dto.CategoryDto;
+import study.bMart.entity.Category;
+import study.bMart.repository.ProductsRepository;
 import study.bMart.service.CategoryService;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllCategory(@RequestParam(value = "category",required = false) String category) {
@@ -60,7 +64,12 @@ public class CategoryController {
                 .httpStatus(HttpStatus.CREATED)
                 .message("카테고리 삭제 완료.")
                 .build();
+       Long asdf = productsRepository.findByCategory_Id(id).get(1).getId();
+       System.out.println(asdf);
         categoryService.categoryDelete(id);
+
+
+
 
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }

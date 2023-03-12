@@ -40,12 +40,11 @@ public class ProductsService {
         return productsRepository.findById(id).map(ProductsResponseDto::new);
     }
 
-    @Transactional
+    @Transactional //상품 등록
     public Products productsRegistration(ProductsRequestDto productsRequestDto){
-
-
 
         return productsRepository.save(productsRequestDto.toEntity());
     }
+
 
 }

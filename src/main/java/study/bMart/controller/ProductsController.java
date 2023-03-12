@@ -10,6 +10,7 @@ import study.bMart.Response.BasicResponse;
 import study.bMart.dto.CategoryDto;
 import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
+import study.bMart.repository.CategoryRepository;
 import study.bMart.repository.ProductsRepository;
 import study.bMart.service.CategoryService;
 import study.bMart.service.ProductsService;
@@ -28,6 +29,9 @@ public class ProductsController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
@@ -97,8 +101,7 @@ public class ProductsController {
     public ResponseEntity<AccountResponse> productsRegistration(@RequestBody ProductsRequestDto productsRequestDto) {
 
         AccountResponse accountResponse = new AccountResponse();
-        List<CategoryDto.Response> categoryList = categoryService.getAllCategory();
-
+        Optional<CategoryDto.Response> cateList = categoryService.getCategory(productsRequestDto.getCategory().getId());
         if(productsRequestDto.getCategory()==null){
             accountResponse = AccountResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
@@ -106,11 +109,12 @@ public class ProductsController {
                     .message("카테고리를 입력하지 않았습니다.")
                     .build();
         }
-        else if(productsRequestDto.getCategory().getId()!=categoryList.stream().findAny().get().getId()){
+       //categoryRepository.findById(productsRequestDto.getCategory().getId()).orElse(null) == null
+        else if(!cateList.isPresent()){
             accountResponse = AccountResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .httpStatus(HttpStatus.BAD_REQUEST)
-                    .message("올바른 카테고리를 입력해 주세요.")
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("해당 카테고리를 찾을수 없습니다.")
                     .build();
 
         }
