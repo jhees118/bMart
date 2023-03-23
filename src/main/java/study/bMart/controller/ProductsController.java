@@ -49,7 +49,6 @@ public class ProductsController {
                     .count(CategoryProductsList.size())
                     .build();
         }
-
         else if(StringUtils.isEmpty(category)==false){
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
@@ -110,6 +109,7 @@ public class ProductsController {
                     .build();
         }
        //categoryRepository.findById(productsRequestDto.getCategory().getId()).orElse(null) == null
+        // 위 방식으로도 !cateList.isPresent() 를 대체할수있다.
         else if(!cateList.isPresent()){
             accountResponse = AccountResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())

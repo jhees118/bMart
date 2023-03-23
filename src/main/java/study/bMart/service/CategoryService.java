@@ -42,4 +42,5 @@ public class CategoryService {
 
         return categoryRepository.findById(id).map(CategoryDto.Response::new);
     }
+
 }

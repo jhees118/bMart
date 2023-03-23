@@ -3,6 +3,7 @@ package study.bMart.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
@@ -33,13 +34,13 @@ public class CategoryController {
 
         BasicResponse basicResponse = new BasicResponse();
 
-            basicResponse = BasicResponse.builder()
-                    .code(HttpStatus.OK.value())
-                    .httpStatus(HttpStatus.OK)
-                    .message("카테고리 조회 성공")
-                    .result(new ArrayList<>(categoryList))
-                    .count(categoryList.size())
-                    .build();
+        basicResponse = BasicResponse.builder()
+                .code(HttpStatus.OK.value())
+                .httpStatus(HttpStatus.OK)
+                .message("카테고리 조회 성공")
+                .result(new ArrayList<>(categoryList))
+                .count(categoryList.size())
+                .build();
 
         return new ResponseEntity<>(basicResponse, basicResponse.getHttpStatus());
     }
@@ -57,38 +58,39 @@ public class CategoryController {
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<BasicResponse> categoryDelete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<BasicResponse> categoryDelete(@PathVariable(required = false,value = "id") Long id) {
 
         BasicResponse basicResponse = new BasicResponse();
-
-        Optional<ProductsResponseDto> cate = productsService.getCategoryIdProducts(id);
-    if() {
-        basicResponse = BasicResponse.builder()
-                .code(HttpStatus.OK.value())
-                .httpStatus(HttpStatus.OK)
-                .message("카테고리 삭제 완료")
-                .result(Collections.emptyList())
-                .count(1).build();
-        categoryService.categoryDelete(id);
-
-    }
-    else if(cate.isPresent()){
-        basicResponse = BasicResponse.builder()
-                .code(HttpStatus.NOT_FOUND.value())
-                .httpStatus(HttpStatus.NOT_FOUND)
-                .message("해당 카테고리를 찾을수없습니다.")
-                .result(Collections.emptyList())
-                .count(0).build();
+        Optional<CategoryDto.Response> getCate = categoryService.getCategory(id);
+        List<ProductsResponseDto> listCate = productsService.getListCategoryProducts(id);
+        if(listCate.isEmpty()) {
+            if(getCate.isPresent()) {
+                basicResponse = BasicResponse.builder()
+                        .code(HttpStatus.OK.value())
+                        .httpStatus(HttpStatus.OK)
+                        .message("카테고리 삭제 완료")
+                        .result(Collections.emptyList())
+                        .count(1).build();
+                categoryService.categoryDelete(id);
+            }else{
+            basicResponse = BasicResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("해당 카테고리를 찾을수없습니다.")
+                    .result(Collections.emptyList())
+                    .count(0).build();
+                }
         }
-    else{
-        basicResponse = BasicResponse.builder()
-                .code(HttpStatus.OK.value())
-                .httpStatus(HttpStatus.OK)
-                .message("상품 카테고리 id를 변경해야합니다")
-                .result(Collections.emptyList())
-                .count(0).build();
+        else{
+            basicResponse = BasicResponse.builder()
 
-    }
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message("해당 상품 카테고리 id를 변경해야합니다")
+                    .result(new ArrayList<>(listCate))
+                    .count(listCate.size()).build();
+
+        }
 
 
 
