@@ -33,7 +33,11 @@ public class ProductsService {
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
     }
+    public Optional<ProductsResponseDto> getCategoryIdProducts(Long id){
+        return productsRepository.findByCategory_Id(id)
+                .map(ProductsResponseDto::new);
 
+    }
 
     public Optional<ProductsResponseDto> getProducts(Long id){
 
