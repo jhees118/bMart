@@ -1,13 +1,18 @@
 package study.bMart.controller;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import study.bMart.Response.AccountResponse;
 import study.bMart.Response.BasicResponse;
+import study.bMart.config.JwtTokenProvider;
 import study.bMart.dto.UserRequestDto;
 import study.bMart.dto.UserResponseDto;
+import study.bMart.entity.User;
 import study.bMart.repository.UserRepository;
 import study.bMart.service.AccountService;
 
@@ -25,6 +30,23 @@ public class AccountController {
     private UserRepository userRepository;
     @Autowired
     private AccountService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+    @PostMapping("/login")
+    public String login(@RequestBody UserRequestDto userRequestDto) {
+        Optional<User> member = Optional.ofNullable(userService.getUsername(userRequestDto));
+        if(member.isPresent()) {
+            if (!passwordEncoder.matches(userRequestDto.getPassword(), member.get().getPassword())) {
+                throw new IllegalArgumentException("비번틀림.");
+            }
+            else {
+                return jwtTokenProvider.createToken(member.get().getUsername(), member.get().getRoles());
+            }
+        }
+        return null;
+    }
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllUser() {
@@ -100,20 +122,4 @@ public class AccountController {
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }
 
-
-/*
-        @PutMapping("/{id}")
-        public ResponseEntity<UserResponse> update(@PathVariable("id") long id, @RequestBody UserRequest userRequest) {
-            UserResponse user = userService.update(userRequest);
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-        }
-
-
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Object> delete(@PathVariable("id") long id) {
-            userService.delete(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-
- */
 }

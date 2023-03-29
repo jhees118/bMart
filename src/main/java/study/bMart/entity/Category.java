@@ -19,6 +19,8 @@ public class Category {
     private Long id;
     private String title;
 
+    private String content;
+
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Products> products = new ArrayList<>();

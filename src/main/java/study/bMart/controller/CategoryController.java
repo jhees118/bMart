@@ -29,6 +29,7 @@ public class CategoryController {
     @Autowired
     private ProductsRepository productsRepository;
 
+
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllCategory(@RequestParam(value = "category",required = false) String category) {
         List<CategoryDto.Response> categoryList = categoryService.getAllCategory();

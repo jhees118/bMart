@@ -129,5 +129,12 @@ public class ProductsController {
         }
         return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
     }
+    @PatchMapping("{id}") public ResponseEntity<AccountResponse> productsRegistration(@PathVariable(required = false,value = "id") Long id,@RequestBody ProductsRequestDto productsRequestDto) {
+        AccountResponse accountResponse = new AccountResponse();
 
-}
+
+
+        return new ResponseEntity<>(accountResponse,accountResponse.getHttpStatus());
+    }
+
+    }

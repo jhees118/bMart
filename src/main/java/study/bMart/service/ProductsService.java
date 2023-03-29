@@ -2,6 +2,7 @@ package study.bMart.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import study.bMart.dto.CategoryDto;
 import study.bMart.dto.ProductsRequestDto;
 import study.bMart.dto.ProductsResponseDto;
 import study.bMart.entity.Category;
@@ -11,6 +12,7 @@ import study.bMart.repository.ProductsRepository;
 
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,6 +50,7 @@ public class ProductsService {
 
         return productsRepository.findById(id).map(ProductsResponseDto::new);
     }
+
 
     @Transactional //상품 등록
     public Products productsRegistration(ProductsRequestDto productsRequestDto){

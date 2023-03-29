@@ -3,6 +3,7 @@ package study.bMart.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import study.bMart.dto.ProductsResponseDto;
 import study.bMart.dto.UserRequestDto;
 import study.bMart.dto.UserResponseDto;
 import study.bMart.entity.Role;
@@ -48,6 +49,11 @@ public class AccountService {
     //아이디중복체크
     public boolean checkUsernameDuplicate(String username){
         return userRepository.existsByUsername(username);
+    }
+
+    public User getUsername(UserRequestDto requestDto){
+
+        return userRepository.findByUsername(requestDto.getUsername());
     }
 
 }
