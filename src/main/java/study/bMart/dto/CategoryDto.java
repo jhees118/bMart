@@ -11,6 +11,7 @@ public class CategoryDto {
     @Builder
     @Data
     public static class Request {
+        private Long id;
         private String title;
         public Category toEntity(){
 
@@ -18,6 +19,7 @@ public class CategoryDto {
         }
     }
     @Getter
+    @Setter
     public static class Response {
 
         private Long id;
@@ -26,6 +28,9 @@ public class CategoryDto {
         public Response(Category category){
             this.id = category.getId();
             this.title = category.getTitle();
+        }
+        public Category Update(){
+            return Category.builder().title(title).build();
         }
     }
 }

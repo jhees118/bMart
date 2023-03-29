@@ -1,6 +1,7 @@
 package study.bMart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -14,6 +15,7 @@ import study.bMart.repository.ProductsRepository;
 import study.bMart.service.CategoryService;
 import study.bMart.service.ProductsService;
 
+import java.sql.SQLException;
 import java.util.*;
 
 @RestController
@@ -44,9 +46,31 @@ public class CategoryController {
 
         return new ResponseEntity<>(basicResponse, basicResponse.getHttpStatus());
     }
+    @PatchMapping("/{id}")
+    public ResponseEntity<BasicResponse> updateCategory(@PathVariable(required = false,value = "id") Long id,@RequestBody CategoryDto.Request request){
+
+        Optional<CategoryDto.Response> getCate = categoryService.getCategory(id);
+        BasicResponse basicResponse = new BasicResponse();
+        if(getCate.isPresent()){
+            basicResponse = BasicResponse.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message("카테고리 수정 완료")
+                    .result(Arrays.asList(getCate.get()))
+                    .count(1).build();
+            categoryService.categoryPatchUpdate(id, request);
+        }else{
+            basicResponse = BasicResponse.builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("해당 카테고리 아이디가 존재하지 않습니다.")
+                    .result(Collections.emptyList())
+                    .count(0).build();
+        }
+        return new ResponseEntity<>(basicResponse,basicResponse.getHttpStatus());
+    }
     @PostMapping("")
     public ResponseEntity<AccountResponse> categoryRegistration(@RequestBody CategoryDto.Request request) {
-
         AccountResponse accountResponse = new AccountResponse();
         accountResponse = AccountResponse.builder()
                 .code(HttpStatus.CREATED.value())
@@ -63,8 +87,8 @@ public class CategoryController {
         BasicResponse basicResponse = new BasicResponse();
         Optional<CategoryDto.Response> getCate = categoryService.getCategory(id);
         List<ProductsResponseDto> listCate = productsService.getListCategoryProducts(id);
-        if(listCate.isEmpty()) {
-            if(getCate.isPresent()) {
+        if(listCate.isEmpty()) { //products 에 해당 카테고리가 없을경우
+            if(getCate.isPresent()) { //getCate 객체가 있을경우
                 basicResponse = BasicResponse.builder()
                         .code(HttpStatus.OK.value())
                         .httpStatus(HttpStatus.OK)
@@ -72,7 +96,7 @@ public class CategoryController {
                         .result(Collections.emptyList())
                         .count(1).build();
                 categoryService.categoryDelete(id);
-            }else{
+            }else{ //getCate 객체가 없을경우
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.NOT_FOUND.value())
                     .httpStatus(HttpStatus.NOT_FOUND)
@@ -81,7 +105,7 @@ public class CategoryController {
                     .count(0).build();
                 }
         }
-        else{
+        else{ //products 에 해당 카테고리가 있을경우
             basicResponse = BasicResponse.builder()
 
                     .code(HttpStatus.OK.value())

@@ -35,11 +35,11 @@ public class ProductsController {
 
     @GetMapping("")
     public ResponseEntity<BasicResponse> getAllProducts(@RequestParam(value = "category",required = false) String category) {
-        List<ProductsResponseDto> productsList = productsService.getAllProducts();
-        List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
+
+
 
         BasicResponse basicResponse = new BasicResponse();
-
+        List<ProductsResponseDto> CategoryProductsList = productsService.getCategoryProducts(category);
         if(StringUtils.isEmpty(category)==false && !CategoryProductsList.isEmpty()){
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.OK.value())
@@ -59,6 +59,7 @@ public class ProductsController {
                     .build();
         }
         else {
+            List<ProductsResponseDto> productsList = productsService.getAllProducts();
 
             basicResponse = BasicResponse.builder()
                     .code(HttpStatus.OK.value())
